@@ -257,8 +257,7 @@
 }
 
 - (void)setSelectedColor:(UIColor *)selectedColor {
-    [_selectedColor autorelease];
-    _selectedColor = [selectedColor retain];
+    _selectedColor = selectedColor;
     [self setColorValues];
 }
 
@@ -269,14 +268,12 @@
     self = [super initWithNibName:nil bundle:nil];
     
     if (self) {
-        _selectedColor = [color retain];
+        _selectedColor = color;
         _delegate = nil;
         _entryField = nil;
         _movingView = nil;
-        _hexadecimalCharacters = 
-            [[NSCharacterSet characterSetWithCharactersInString:HEXADECIMAL_CHARACTERS] retain];
-        _decimalCharacters = 
-            [[NSCharacterSet characterSetWithCharactersInString:DECIMAL_CHARACTERS] retain];
+        _hexadecimalCharacters = [NSCharacterSet characterSetWithCharactersInString:HEXADECIMAL_CHARACTERS];
+        _decimalCharacters = [NSCharacterSet characterSetWithCharactersInString:DECIMAL_CHARACTERS] ;
         
         self.navigationItem.title = title;
     }
@@ -288,11 +285,6 @@
 #pragma mark Overrides
 
 - (void)dealloc {
-    [_selectedColor release];
-    [_hexadecimalCharacters release];
-    [_decimalCharacters release];
-    
-    [super dealloc];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -307,21 +299,19 @@
     backgroundView.autoresizesSubviews = YES;
     backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | 
                                       UIViewAutoresizingFlexibleHeight;
-    self.view = [backgroundView autorelease];
+    self.view = backgroundView;
     
     UIBarButtonItem *cancelButton = 
         [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
                                                       target:self 
                                                       action:@selector(cancelButtonPressed)];
     self.navigationItem.leftBarButtonItem = cancelButton;
-    [cancelButton release];
     
     UIBarButtonItem *saveButton = 
         [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
                                                       target:self
                                                       action:@selector(saveButtonPressed)];
     self.navigationItem.rightBarButtonItem = saveButton;
-    [saveButton release];
     
     UILabel *hueSaturationValueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     hueSaturationValueLabel.text = 
@@ -335,7 +325,6 @@
     hueSaturationValueLabel.textAlignment = UITextAlignmentRight;
     hueSaturationValueLabel.backgroundColor = [UIColor clearColor];
     [backgroundView addSubview:hueSaturationValueLabel];
-    [hueSaturationValueLabel release];
     
     CGFloat labelRightEdge = DEFAULT_MARGIN + LABEL_WIDTH;
     
@@ -353,7 +342,6 @@
     _hueField.backgroundColor = [UIColor whiteColor];
     _hueField.delegate = self;
     [backgroundView addSubview:_hueField];
-    [_hueField release];
     
     labelRightEdge += LABEL_WIDTH + LABEL_MARGIN;
     
@@ -371,7 +359,6 @@
     _saturationField.backgroundColor = [UIColor whiteColor];
     _saturationField.delegate = self;
     [backgroundView addSubview:_saturationField];
-    [_saturationField release];
     
     labelRightEdge += LABEL_WIDTH + LABEL_MARGIN;
     
@@ -389,7 +376,6 @@
     _brightnessField.backgroundColor = [UIColor whiteColor];
     _brightnessField.delegate = self;
     [backgroundView addSubview:_brightnessField];
-    [_brightnessField release];
 
     labelRightEdge += LABEL_WIDTH + LABEL_MARGIN;
 
@@ -402,7 +388,6 @@
                                   viewBounds.size.width - DEFAULT_MARGIN - colorViewLeftEdge, 
                                   COLOR_VIEW_HEIGHT);
     [backgroundView addSubview:_colorView];
-    [_colorView release];
     
     CGFloat textFieldBottomEdge = DEFAULT_MARGIN + TEXT_FIELD_HEIGHT + LABEL_MARGIN;
     
@@ -418,7 +403,6 @@
     redGreenBlueLabel.textAlignment = UITextAlignmentRight;
     redGreenBlueLabel.backgroundColor = [UIColor clearColor];
     [backgroundView addSubview:redGreenBlueLabel];
-    [redGreenBlueLabel release];
     
     labelRightEdge = DEFAULT_MARGIN + LABEL_WIDTH;
     
@@ -436,7 +420,6 @@
     _redField.backgroundColor = [UIColor whiteColor];
     _redField.delegate = self;
     [backgroundView addSubview:_redField];
-    [_redField release];
     
     labelRightEdge += LABEL_WIDTH + LABEL_MARGIN;
     
@@ -454,7 +437,6 @@
     _greenField.backgroundColor = [UIColor whiteColor];
     _greenField.delegate = self;
     [backgroundView addSubview:_greenField];
-    [_greenField release];
     
     labelRightEdge += LABEL_WIDTH + LABEL_MARGIN;
     
@@ -472,7 +454,6 @@
     _blueField.backgroundColor = [UIColor whiteColor];
     _blueField.delegate = self;
     [backgroundView addSubview:_blueField];
-    [_blueField release];
 
     textFieldBottomEdge += TEXT_FIELD_HEIGHT + LABEL_MARGIN;
     
@@ -488,7 +469,6 @@
     hexadecimalLabel.textAlignment = UITextAlignmentRight;
     hexadecimalLabel.backgroundColor = [UIColor clearColor];
     [backgroundView addSubview:hexadecimalLabel];
-    [hexadecimalLabel release];
     
     labelRightEdge = DEFAULT_MARGIN + LABEL_WIDTH;
     
@@ -507,7 +487,6 @@
     _hexField.backgroundColor = [UIColor whiteColor];
     _hexField.delegate = self;
     [backgroundView addSubview:_hexField];
-    [_hexField release];
     
     textFieldBottomEdge += TEXT_FIELD_HEIGHT + DEFAULT_MARGIN;
     
@@ -525,7 +504,6 @@
     _brightnessView.autoresizingMask = UIViewAutoresizingFlexibleWidth |
                                                UIViewAutoresizingFlexibleTopMargin;
     [backgroundView addSubview:_brightnessView];
-    [_brightnessView release];
 
     UIImage *horizontalSelectorImage = 
         [UIImage imageNamed:HORIZONTAL_SELECTOR_IMAGE_FILE_NAME];
@@ -536,7 +514,6 @@
     selectorFrame.origin.y = gradientFrame.origin.y;
     _horizontalSelector.frame = selectorFrame;
     [backgroundView addSubview:_horizontalSelector];
-    [_horizontalSelector release];
     
     
     CGFloat hueSaturationHeight = viewBounds.size.height - 
@@ -555,7 +532,6 @@
     hueSaturationBackgroundView.autoresizesSubviews = YES;
     hueSaturationBackgroundView.clipsToBounds = YES;
     [backgroundView addSubview:hueSaturationBackgroundView];
-    [hueSaturationBackgroundView release];
 
     UIImage *hueSaturationImage = [UIImage imageNamed:HUE_SATURATION_IMAGE_FILE_NAME];
     _hueSaturationView = [[UIImageView alloc] initWithImage:hueSaturationImage];
@@ -565,13 +541,11 @@
     _hueSaturationView.frame = hueSaturationBackgroundView.bounds;
     _hueSaturationView.opaque = NO;
     [hueSaturationBackgroundView addSubview:_hueSaturationView];
-    [_hueSaturationView release];
 
     UIImage *crosshairSelectorImage =
         [UIImage imageNamed:CROSSHAIR_SELECTOR_IMAGE_FILE_NAME];
     _crosshairSelector = [[UIImageView alloc] initWithImage:crosshairSelectorImage];
     [hueSaturationBackgroundView addSubview:_crosshairSelector];
-    [_crosshairSelector release];
 
     [self setColorValues];
 }

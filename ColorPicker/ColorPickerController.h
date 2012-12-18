@@ -72,7 +72,7 @@ typedef struct {
     UITextField *_blueField;
     UITextField *_hexField;
     HsvColor _hsvColor;
-    id<ColorPickerDelegate> _delegate;
+    __unsafe_unretained id<ColorPickerDelegate> _delegate;
     UITextField *_entryField;
     UIImageView *_movingView;
     NSCharacterSet *_hexadecimalCharacters;

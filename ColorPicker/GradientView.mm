@@ -57,7 +57,6 @@
     }
     else if (colors.count > 1) {
         if (_colors) {
-            [_colors release];
             CGGradientRelease(_gradient);
         }
         
@@ -113,11 +112,8 @@
 
 - (void)dealloc {
     if (_colors) {
-        [_colors release];
         CGGradientRelease(_gradient);
     }
-    
-    [super dealloc];
 }
 
 - (void)drawRect:(CGRect)rect {
